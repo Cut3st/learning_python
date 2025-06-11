@@ -51,4 +51,3 @@ while True:
     if cont != "Y":
      print("Thank you for using the calculator!")
      break
-    
