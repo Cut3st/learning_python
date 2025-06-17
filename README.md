@@ -2,7 +2,7 @@ My progress journal in rushing basic Python before University start BroCodez sty
 
 Progress🎚️: 
 
-![](https://geps.dev/progress/8)
+![](https://geps.dev/progress/10)
 
 ✅ Day 1 - (1:06:12/12:00:00) *11th June 2025*
  - Completed simple calculator project
