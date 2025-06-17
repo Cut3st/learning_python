@@ -14,7 +14,7 @@ Reflection:  `4.5 hours of studying mostly trying to figure out how tf to commit
 
 Reflection:  `1 hour to "study" since its late, little progress with the video due to to me additional requirements to the project BroCodez requested for, literally only converting weight and temperature, i just had add more to it currently stuck at BMI wrong calculation`
 
-✅ Day 3 - (1:08:37/12:00:00) *17th June 2025*
- - Completed Health Survey project
+✅ Day 3 - (2:06:27/12:00:00) *17th June 2025*
+ - Completed Health Survey project, Pending Compound Interest Calculator Project
 
-Reflection:  `Took me 40 minutes to realised that the BMI calculations were wrong becaused I put elif instead of if for a totally different variable pull,`
+Reflection:  `Took me 40 minutes to realised that the BMI calculations were wrong becaused I put elif instead of if for a totally different variable pull, learned string methods, indexing and format specifiers also while loop, learnt these before so it was quick to go through the lesson`
