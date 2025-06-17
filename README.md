@@ -1,4 +1,4 @@
-My progress journal in rushing basic Python before University start BroCodez style 😎
+My progress journal in rushing basic Python before University start 12HRS Video BroCodez style 😎
 
 Progress🎚️: 
 
