@@ -1,4 +1,3 @@
-import time
 items = []
 prices =[]
 total = 0
