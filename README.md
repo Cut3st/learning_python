@@ -2,7 +2,7 @@ My progress journal in rushing basic Python before University start 12HRS Video 
 
 Progress🎚️: 
 
-![](https://geps.dev/progress/16)
+![](https://geps.dev/progress/25.5)
 
 ✅ Day 1 - (1:06:12/12:00:00) *11th June 2025*
  - Completed simple calculator project
@@ -24,7 +24,8 @@ Reflection:  `Took me 40 minutes to realised that the BMI calculations were wron
 
 Reflection:  `Application of while loop, for loop and time assets. countdown timer was made with help ofc but slightly different as I tried to work it out by myself, realised how math is super important`
 
-✅ Day 5 - (2:38:04/12:00:00) *24th June 2025*
- - Pending Shopping Cart Program
+✅ Day 5 - (3:03:36/12:00:00) *24th June 2025*
+ - Completed Shopping Cart Program and Quiz Game Project
 
-Reflection:  `Gotta be more consistent with practicing coding, but I was busy and tired out from army last week hence the 6 days break (lowkey an excuse)`
+Reflection:  `Took a 6-day coding break due to army fatigue (partly an excuse). I try not to follow tutorials exactly—always tweak and build on them. I use Copilot for help when stuck, though I could rely on it less. With the help of Copilot, I've got implement my ideas and learned a lot from it, but I need to code more consistently to really grasp variables, conditions, and methods.`
+
