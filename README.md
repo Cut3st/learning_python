@@ -17,15 +17,15 @@ Reflection:  `1 hour to "study" since its late, little progress with the video d
 ✅ Day 3 - (2:06:27/12:00:00) *17th June 2025*
  - Completed Health Survey project, Pending Compound Interest Calculator Project
 
-Reflection:  `Took me 40 minutes to realised that the BMI calculations were wrong becaused I put elif instead of if for a totally different variable pull, learned string methods, indexing and format specifiers also while loop, learnt these before so it was quick to go through the lesson`
+Reflection:  `Quick 2 hours study, Took me 40 minutes to realised that the BMI calculations were wrong becaused I put elif instead of if for a totally different variable pull, learned string methods, indexing and format specifiers also while loop, learnt these before so it was quick to go through the lesson`
 
 ✅ Day 4 - (2:38:04/12:00:00) *18th June 2025*
  - Completed Compound Interest Calculator and Countdown Timer Project
 
-Reflection:  `Application of while loop, for loop and time assets. countdown timer was made with help ofc but slightly different as I tried to work it out by myself, realised how math is super important`
+Reflection:  `Quick 2 hours study, Application of while loop, for loop and time assets. countdown timer was made with help ofc but slightly different as I tried to work it out by myself, realised how math is super important`
 
 ✅ Day 5 - (3:03:36/12:00:00) *24th June 2025*
  - Completed Shopping Cart Program and Quiz Game Project
 
-Reflection:  `Took a 6-day coding break due to army fatigue (partly an excuse). I try not to follow tutorials exactly—always tweak and build on them. I use Copilot for help when stuck, though I could rely on it less. With the help of Copilot, I've got implement my ideas and learned a lot from it, but I need to code more consistently to really grasp variables, conditions, and methods.`
+Reflection:  `3 hours study, Took a 6-day coding break due to army fatigue (partly an excuse). I try not to follow tutorials exactly—always tweak and build on them. I use Copilot for help when stuck, though I could rely on it less. With the help of Copilot, I've got implement my ideas and learned a lot from it, but I need to code more consistently to really grasp variables, conditions, and methods.`
 
