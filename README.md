@@ -27,4 +27,4 @@ Reflection:  `Application of while loop, for loop and time assets. countdown tim
 ✅ Day 5 - (2:38:04/12:00:00) *24th June 2025*
  - Pending Shopping Cart Program
 
-Reflection:  `Gotta be more consistent with practicing coding, but I was busy and tired out from last week hence the 6 days break (lowkey an excuse)`
+Reflection:  `Gotta be more consistent with practicing coding, but I was busy and tired out from army last week hence the 6 days break (lowkey an excuse)`
