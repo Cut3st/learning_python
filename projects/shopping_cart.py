@@ -3,9 +3,9 @@ prices =[]
 total = 0
 
 while True:
-    item = input("Enter your selected item (Type 'Q' to quit): ")
+    item = input("Enter your selected item (Type 'Q' to quit): ").upper()
     #Make sures no matter lower or upper case input it'll prompt the break
-    if item.upper() == "Q":
+    if item == "Q":
         break
     else:
         items.append(item)
