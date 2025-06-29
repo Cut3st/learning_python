@@ -29,3 +29,7 @@ Reflection:  `Quick 2 hours study, Application of while loop, for loop and time 
 
 Reflection:  `3 hours study, Took a 6-day coding break due to army fatigue (partly an excuse). I try not to follow tutorials exactly—always tweak and build on them. I use Copilot for help when stuck, though I could rely on it less. With the help of Copilot, I've got implement my ideas and learned a lot from it, but I need to code more consistently to really grasp variables, conditions, and methods.`
 
+✅ Day 6 - (3:11:36/12:00:00) *26th June 2025*
+ - Pending Concession Stand Program
+
+Reflection:  `Quick 1 hour study, learned dictionary with key and value and how to apply it, just a quick session LOL but anyways procastination is killing me, writing this reflection on 29th June, with barely any progress from day 5`
