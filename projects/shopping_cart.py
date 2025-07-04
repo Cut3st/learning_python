@@ -1,6 +1,6 @@
 items = []
-prices = [0.0]
-prices.pop()
+prices = [0.0] #Makes sure the list is made of floats only
+prices.pop() # Removes the starter value; list is now empty
 total = 0
 
 while True:
