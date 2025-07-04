@@ -30,11 +30,11 @@ while True:
         print(f"🤖 COMPUTER: {option}\n")
         round += 1
     if wins == 2:
-        print("🎊 YOU WIN THE BEST OF 3!")
+        print("🎊 YOU WIN THE BEST OF 3!\n")
     elif losses == 2:
-        print("😿 YOU LOST THE BEST OF 3!")
-    cont = input("Would you want to play another round? (Y/N): ").upper()
-    if cont != "Y":
+        print("😿 YOU LOST THE BEST OF 3!\n")
+    if not input("Would you want to play another round? (Y/N): ").upper() == "Y":
+        print()
         print("😄 Thanks for playing!")
         break
     
