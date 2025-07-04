@@ -37,4 +37,4 @@ Reflection:  `Quick 1 hour study, learned dictionary with key and value and how 
 ✅ Day 7 - (4:03:01:/12:00:00) *4th July 2025*
  - Completed Concession Stand Program, Dice Roller, Rock Paper Scissors and Number Guessing game
 
-Reflection:  `4-5Hours of Study and researching how to make the project codes better than the tutorial without over complicating it, all the projects from today were to practice random numbers lesson, i made the games replayable as compared to the tutorial and mostly did the projects on my own before refering to the tutorial`
+Reflection:  `Procasinated again as i was busy last week, but got in 4–5 hours of coding today. Went through random number lesson and provided projects, made them replayable, and worked through most of the logic independently before checking the tutorial.`
