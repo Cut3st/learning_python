@@ -35,5 +35,6 @@ while True:
         print("😿 YOU LOST THE BEST OF 3!")
     cont = input("Would you want to play another round? (Y/N): ").upper()
     if cont != "Y":
+        print("😄 Thanks for playing!")
         break
     
