@@ -1,5 +1,6 @@
 items = []
-prices =[]
+prices = [0.0]
+prices.pop()
 total = 0
 
 while True:
