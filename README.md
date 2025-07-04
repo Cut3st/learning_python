@@ -2,7 +2,7 @@ My progress journal in rushing basic Python before University start 12HRS Video 
 
 Progress🎚️: 
 
-![](https://geps.dev/progress/25)
+![](https://geps.dev/progress/33)
 
 ✅ Day 1 - (1:06:12/12:00:00) *11th June 2025*
  - Completed simple calculator project
@@ -33,3 +33,8 @@ Reflection:  `3 hours study, Took a 6-day coding break due to army fatigue (part
  - Pending Concession Stand Program
 
 Reflection:  `Quick 1 hour study, learned dictionary with key and value and how to apply it, just a quick session LOL but anyways procastination is killing me, writing this reflection on 29th June, with barely any progress from day 5`
+
+✅ Day 7 - (4:03:01:/12:00:00) *4th July 2025*
+ - Completed Concession Stand Program, Dice Roller, Rock Paper Scissors and Number Guessing game
+
+Reflection:  `4-5Hours of Study and researching how to make the project codes better than the tutorial without over complicating it, all the projects from today were to practice random numbers lesson, i made the games replayable as compared to the tutorial and mostly did the projects on my own before refering to the tutorial`
