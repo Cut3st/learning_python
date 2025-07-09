@@ -38,3 +38,8 @@ Reflection:  `Quick 1 hour study, learned dictionary with key and value and how 
  - Completed Concession Stand Program, Dice Roller, Rock Paper Scissors and Number Guessing game
 
 Reflection:  `Procasinated again as i was busy last week, but got in 4–5 hours of coding today. Went through random number lesson and provided projects, made them replayable, and worked through most of the logic independently before checking the tutorial.`
+
+✅ Day 8 - (4:30:38:/12:00:00) *9th July 2025*
+ - None
+
+Reflection:  `Quick 1 hour study, Procasinated 5 days again...got no more excuse gotta lock in now school starting soon, anyways today i just went through, default, keyword and arbi arguments thats all.`
