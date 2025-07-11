@@ -2,7 +2,7 @@ My progress journal in rushing basic Python before University start 12HRS Video 
 
 Progress🎚️: 
 
-![](https://geps.dev/progress/38)
+![](https://geps.dev/progress/42)
 
 ✅ Day 1 - (1:06:12/12:00:00) *11th June 2025*
  - Completed simple calculator project
@@ -43,3 +43,8 @@ Reflection:  `Procasinated again as i was busy last week, but got in 4–5 hours
  - None
 
 Reflection:  `Quick 1 hour study, Procasinated 5 days again...got no more excuse gotta lock in now school starting soon, anyways today i just went through, default, keyword and arbi arguments thats all.`
+
+✅ Day 9 - (5:02:38:/12:00:00) *11th July 2025*
+ - None
+
+Reflection:  `Quick 1 hour study, was busy catching up on math but wtv went through, Match-case statement (Switch), List comprehension, Membership operators and Iterables`
