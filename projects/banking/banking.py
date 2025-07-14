@@ -7,7 +7,7 @@ def register():
         username = input("Choose your username: ")
         password = input("Choose your password: ")
         try:
-            with open("users.json","r") as f:
+            with open("banking/users.json","r") as f:
                 users = json.load(f)
         except FileNotFoundError:
             users = {}
@@ -16,7 +16,7 @@ def register():
             continue
         users[username] = {"password": password, "balance": 0}
 
-        with open("users.json", "w") as f:
+        with open("banking/users.json", "w") as f:
             json.dump(users, f)
 
         print("✅ Registration Succesful")
@@ -27,7 +27,7 @@ def login():
         username = input("Username: ")
         password = input("Password: ")
         try:
-            with open("users.json", "r") as f:
+            with open("banking/users.json", "r") as f:
                 users = json.load(f)
         except FileNotFoundError:
             print("No user data found")
@@ -92,7 +92,7 @@ def main():
         is_running = True
     else:
         print("Invalid option. Try again.")
-    with open("users.json", "r") as f:
+    with open("banking/users.json", "r") as f:
         users = json.load(f)
 
     balance = users[username]["balance"]
@@ -111,12 +111,12 @@ def main():
             case "2":
                 balance = deposit(balance)
                 users[username]["balance"] = balance
-                with open("users.json", "w") as f:
+                with open("banking/users.json", "w") as f:
                     json.dump(users, f)
             case "3":
                 balance = withdraw(balance)
                 users[username]["balance"] = balance
-                with open("users.json", "w") as f:
+                with open("banking/users.json", "w") as f:
                     json.dump(users, f)
             case "4":
                 is_running = False
