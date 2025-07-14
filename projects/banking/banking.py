@@ -7,7 +7,7 @@ def register():
         username = input("Choose your username: ")
         password = input("Choose your password: ")
         try:
-            with open("banking/users.json","r") as f:
+            with open("users.json","r") as f:
                 users = json.load(f)
         except FileNotFoundError:
             users = {}
@@ -16,7 +16,7 @@ def register():
             continue
         users[username] = {"password": password, "balance": 0}
 
-        with open("banking/users.json", "w") as f:
+        with open("users.json", "w") as f:
             json.dump(users, f)
 
         print("✅ Registration Succesful")
@@ -27,10 +27,10 @@ def login():
         username = input("Username: ")
         password = input("Password: ")
         try:
-            with open("banking/users.json", "r") as f:
+            with open("users.json", "r") as f:
                 users = json.load(f)
         except FileNotFoundError:
-            print("No user data found")
+            print("❓ No user data found")
             return None
 
         if username in users and users[username]["password"] == password:
@@ -48,9 +48,9 @@ def show_balance(balance):
     time.sleep(1)
 
 def deposit(balance):
-    amount = float(input("\nHow much would you like to deposit? "))
+    amount = float(input("\nHow much would you like to deposit? $"))
     if amount < 0:
-        print("❌ Invalid amount")
+        print("\n❌ Invalid amount\n")
     else:
         balance += amount
         print("\n=======================")
@@ -61,9 +61,9 @@ def deposit(balance):
     return balance
 
 def withdraw(balance):
-    amount = float(input("\nHow much would you like to withdraw? "))
+    amount = float(input("\nHow much would you like to withdraw? $"))
     if amount > balance:
-        print("❌ Insufficient Funds.")
+        print("\n❌ Insufficient Funds.\n")
     else:
         balance -= amount
         print("\n=======================")
@@ -82,7 +82,7 @@ def main():
     print("Welcome! What would you like to do?")
     print("1. Register")
     print("2. Login")
-    login_choice = input("Enter 1 or 2: ")
+    login_choice = input("\nEnter 1 or 2: ")
     if login_choice == "1":
         register()
         username = login()
@@ -92,7 +92,7 @@ def main():
         is_running = True
     else:
         print("Invalid option. Try again.")
-    with open("banking/users.json", "r") as f:
+    with open("users.json", "r") as f:
         users = json.load(f)
 
     balance = users[username]["balance"]
@@ -111,12 +111,12 @@ def main():
             case "2":
                 balance = deposit(balance)
                 users[username]["balance"] = balance
-                with open("banking/users.json", "w") as f:
+                with open("users.json", "w") as f:
                     json.dump(users, f)
             case "3":
                 balance = withdraw(balance)
                 users[username]["balance"] = balance
-                with open("banking/users.json", "w") as f:
+                with open("users.json", "w") as f:
                     json.dump(users, f)
             case "4":
                 is_running = False
