@@ -50,7 +50,7 @@ def show_balance(balance):
 def deposit(balance):
     amount = float(input("\nHow much would you like to deposit? "))
     if amount < 0:
-        print("Invalid amount")
+        print("❌ Invalid amount")
     else:
         balance += amount
         print("\n=======================")
@@ -63,7 +63,7 @@ def deposit(balance):
 def withdraw(balance):
     amount = float(input("\nHow much would you like to withdraw? "))
     if amount > balance:
-        print("Insufficient Funds.")
+        print("❌ Insufficient Funds.")
     else:
         balance -= amount
         print("\n=======================")
