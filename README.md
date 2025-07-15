@@ -2,7 +2,7 @@ My progress journal in rushing basic Python before University start 12HRS Video 
 
 Progress🎚️: 
 
-![](https://geps.dev/progress/50)
+![](https://geps.dev/progress/54)
 
 ✅ Day 1 - (1:06:12/12:00:00) *11th June 2025*
  - Completed simple calculator project
@@ -58,3 +58,8 @@ Reflection:  `Quick 30 mins study learn about modules, variable scope & scope re
  - Completed Banking, Slot Machine Program. Pending Encryption and Hangman Program
 
 Reflection:  `Spent 4–8 hours coding a banking program and slot machine game. Added login/registration with saved credentials to the banking system and built custom logic, visuals, and menus for the slots game. Improved input handling with try-except and implemented extras apart from tutorial using Copilot. Coding speed and problem-solving could be better but a super fun and productive session!`
+
+✅ Day 12 - (6:32:33:/12:00:00) *15th July 2025*
+ - Completed Encryption and Hangman Program
+
+Reflection:  `Spent 4 hours coding an encryption tool and a Hangman game. Used the tutorial and Copilot for support but added personal touches, like logging encrypted patterns. It was productive — I realized I still struggle with enclosed statements and need to get better at turning creative ideas into code without always relying on help. I'll be better.`
