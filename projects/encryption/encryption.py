@@ -17,11 +17,11 @@ def encryption():
     for letter in user_input:
         index = chars.index(letter)
         cipher_text += key[index]
-    print(f"Encrypted text: {cipher_text}")
+    print(f"\nEncrypted text: {cipher_text}\n")
     return cipher_text, key, user_input
 
 def decryption():
-    cipher_text = input("Enter message to decrypt: ")
+    cipher_text = input("\nEnter message to decrypt: ")
     try:
         with open("keys.json","r") as f:
             logs = json.load(f)
@@ -36,7 +36,7 @@ def decryption():
             for letter in cipher_text:
                 index = key.index(letter)
                 user_input += chars[index]
-            print(f"Decrypted message: {user_input}")
+            print(f"\nDecrypted message: {user_input}\n")
             return
     print("Message not found in logs.")
 
@@ -54,11 +54,11 @@ def logs(cipher_text, key, user_input):
 def main():
     is_running = True
     while is_running:
-        print("Welcome to Cutest Encryptions")
+        print("\nWelcome to Cutest Encryptions")
         print("1. Encrypt")
         print("2. Decrypt")
         print("3. Exit")
-        choice = input("Choose your options (1-3): ")
+        choice = input("\nChoose your options (1-3): ")
         if choice == "1":
             cipher_text, user_input, key = encryption()
             logs(cipher_text, user_input, key)
