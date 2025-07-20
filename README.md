@@ -63,3 +63,8 @@ Reflection:  `Spent 4–8 hours coding a banking program and slot machine game. 
  - Completed Encryption and Hangman Program
 
 Reflection:  `Spent 4 hours coding an encryption tool and a Hangman game. Used the tutorial and Copilot for support but added personal touches, like logging encrypted patterns. It was productive — I realized I still struggle with enclosed statements and need to get better at turning creative ideas into code without always relying on help. I'll be better.`
+
+✅ Day 13 - (7:00:03:/12:00:00) *20th July 2025*
+ - None
+
+Reflection:  `Quick 30mins study procrastinated for yet another 5 days..., learnt Object Oriented Programming, Inheritance and Class Variables`
