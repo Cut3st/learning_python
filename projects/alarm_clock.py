@@ -1,5 +1,6 @@
 import time
 import datetime
+import pygame
 
 def validate_time_format(time_str):
     try:
@@ -10,15 +11,23 @@ def validate_time_format(time_str):
     
 def set_alarm(alarm_time):
     print(f"\n⏰ Alarm set at {alarm_time}")
-    
+    sound_file = "my_music.mp3"
     is_running = True
     while is_running:
         current_time = datetime.datetime.now().strftime("%H:%M:%S")
         print(current_time)
         time.sleep(1)
         if current_time == alarm_time:
+            pygame.mixer.init()
+            pygame.mixer.music.load(sound_file)
+            pygame.mixer.music.play(start=15)
+            
+            time.sleep(10)
+            pygame.mixer.music.stop()
             is_running = False
             print("TIMES UP!! ⏰")
+            
+            
     
 if __name__ == "__main__":
     
