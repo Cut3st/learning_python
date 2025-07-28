@@ -2,7 +2,7 @@ My progress journal in rushing basic Python before University start 12HRS Video 
 
 Progress🎚️: 
 
-![](https://geps.dev/progress/75)
+![](https://geps.dev/progress/93)
 
 ✅ Day 1 - (1:06:12/12:00:00) *11th June 2025*
  - Completed simple calculator project
@@ -73,3 +73,8 @@ Reflection:  `Quick 30mins study procrastinated for yet another 5 days..., learn
  - Completed Alarm Clock Program
 
 Reflection:  `Studied theory topics like Dates & Times, File handling, Exception handling, Decorators, @property, magic/class/static methods, duck typing, polymorphism, super(), and inheritance. Also worked on the alarm clock program—tried coding it myself but needed help with things the pygame integration.`
+
+✅ Day 15 - (11:06:13/12:00:00) *28th July 2025*
+ - Pending Weather API App, Completed Digital Clock, Stopwatch
+
+Reflection:  `After procrastinating for 6 days, I’m almost done with the tutorial—just one final project left. I studied API integration and various PyQt5 topics (GUI, labels, layouts, buttons, checkboxes, radio buttons, textboxes, CSS). Using this knowledge, I built a digital clock and stopwatch. Although I struggled with some PyQt5 imports, I followed tutorials closely and added my own touches—like combining start/stop buttons and adding a lap feature with AI help for the stopwatch.`
