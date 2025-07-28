@@ -1,4 +1,4 @@
-#PyQt5 Push Buttons
+#PyQt5 Radio Buttons
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QRadioButton, QButtonGroup
 
@@ -45,11 +45,8 @@ class MainWindow(QMainWindow):
         if radio_button.isChecked():
             print(f"{radio_button.text()} is selected.")
 
-def main():
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    main()

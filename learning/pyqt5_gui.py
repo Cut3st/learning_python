@@ -10,11 +10,8 @@ class MainWindow(QMainWindow):
         self.setGeometry(700, 300, 500, 500)
         self.setWindowIcon(QIcon("server-icon.png"))      
         
-def main():
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    main()
