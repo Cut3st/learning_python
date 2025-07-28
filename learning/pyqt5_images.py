@@ -7,9 +7,7 @@ from PyQt5.QtGui import QPixmap
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("My First GUI")
-        self.setGeometry(700, 300, 500, 500)
-        self.setWindowIcon(QIcon("server-icon.png"))      
+        self.setGeometry(700, 300, 500, 500)     
 
         label = QLabel(self)
         label.setGeometry(0, 0, 250, 250)
