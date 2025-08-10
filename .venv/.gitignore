@@ -1,0 +1,19 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+# Ignore Python virtual environments
+.venv\
+__pycache__\
+.venv
+
+# Ignore secret config files
+.env
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Allow everything else
+!*.py
+!*.md
+!*.png
+!*.jpg
+!*.ttf
