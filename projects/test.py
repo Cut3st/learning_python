@@ -1,33 +1,41 @@
 import requests
 
-def test_rate_limit():
-    url = "https://api.tomorrow.io/v4/weather/realtime"
+def test_openweathermap(api_key, city="Singapore"):
+    url = "https://api.openweathermap.org/data/2.5/weather"
     params = {
-        "location": "Singapore",
-        "apikey": "DjEy6FuDa2mnGkvG1oSjSgZf9Z64ZtY8"
+        "q": city,
+        "appid": api_key
     }
 
-    print("Sending request to Tomorrow.io...")
+    print(f"🔍 Testing OpenWeatherMap API for city: {city}")
     try:
         response = requests.get(url, params=params)
         print("Status code:", response.status_code)
 
         try:
             data = response.json()
-            print("Response JSON:", data)
+        except ValueError:
+            print("❌ Response is not JSON. Raw text:")
+            print(response.text)
+            return
 
-            if response.status_code == 429:
-                print("🚫 Rate limit exceeded!")
-                print("Message:", data.get("message", "No message"))
-            elif response.status_code == 200:
-                print("✅ API call successful. You're not rate-limited.")
-            else:
-                print("⚠️ Unexpected status code:", response.status_code)
-        except Exception as e:
-            print("❌ Failed to parse JSON:", e)
-            print("Raw response:", response.text)
+        # Error handling based on status code
+        if response.status_code == 200:
+            print("✅ API call successful.")
+            print("Weather:", data["weather"][0]["description"])
+        elif response.status_code == 401:
+            print("🔒 Unauthorized: Invalid API key.")
+        elif response.status_code == 404:
+            print("📍 City not found or bad request.")
+        elif response.status_code == 429:
+            print("🚫 Rate limit exceeded.")
+            print("Message:", data.get("message", "No message"))
+        else:
+            print(f"⚠️ Unexpected error: {response.status_code}")
+            print("Message:", data.get("message", "No message"))
 
     except requests.exceptions.RequestException as e:
         print("❌ Network error:", e)
 
-test_rate_limit()
+# Example usage
+test_openweathermap("c5d7f75a3fe671e2cd0ab433137d738b", "Singapore")
