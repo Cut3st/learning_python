@@ -38,4 +38,4 @@ def test_openweathermap(api_key, city="Singapore"):
         print("❌ Network error:", e)
 
 # Example usage
-test_openweathermap("c5d7f75a3fe671e2cd0ab433137d738b", "Singapore")
+test_openweathermap("", "Singapore")
