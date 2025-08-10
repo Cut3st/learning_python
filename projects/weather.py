@@ -108,12 +108,12 @@ class WeatherApp(QWidget):
     def get_weather(self):
         # Tomorrow API
         # city = self.city_input.text()
-        # api_key = "DjEy6FuDa2mnGkvG1oSjSgZf9Z64ZtY8"
+        # api_key = ""
         # url = f"https://api.tomorrow.io/v4/weather/realtime?location={city}&apikey={api_key}"
 
         #OpenWeatheMap API
         city = self.city_input.text()
-        api_key = "c5d7f75a3fe671e2cd0ab433137d738b"
+        api_key = ""
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
         try:
