@@ -15,7 +15,7 @@ class WeatherApp(QWidget):
         self.weather_label = QLabel(self)
         self.temperature_label = QLabel(self)
         self.fltemperature_label = QLabel(self)
-        self.emoji_label = QLabel("☀️",self)
+        self.emoji_label = QLabel(self)
         self.initUI()
 
     def initUI(self):
