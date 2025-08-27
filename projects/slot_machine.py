@@ -91,9 +91,12 @@ def main():
                             elif pay == 0:
                                 print("\n😿 You lost!\n")
                                 print(f"Balance: ${balance}")
-                        choice = input("Do you want to continue?(Y/N): ").upper()
-                        if choice != "Y":
+                        if balance == 0:
                             break
+                        else:
+                            choice = input("Do you want to continue?(Y/N): ").upper()
+                            if choice != "Y":
+                                break
                     except ValueError:
                         print("Invalid input. Please enter a number.")
                     #Literally prints the result outcome and winnings menu         
