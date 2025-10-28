@@ -1,0 +1,71 @@
+================================================================================
+TEAM VALIDATION LOG
+================================================================================
+Timestamp: 2025-10-29 03:15:51
+CSV File:   C:/Users/User/OneDrive/Documents/GitHub/learning_python/FDBA_Team1_JohnSmith.csv
+Team Size:  5
+Strictness: NIGHTMARE
+Score:      100.0% | Grade: A+ (Excellent)
+Issues:     3 (🚨0/⚠️0/ℹ️3)
+================================================================================
+
+[SUMMARY REPORT]
+--------------------------------------------------------------------------------
+======================================================================
+TEAM ALLOCATION VALIDATION SUMMARY (NIGHTMARE MODE)
+======================================================================
+
+✓ Strictness Level: NIGHTMARE
+✓ Total Issues Found: 3
+
+Total Students: 6000
+Total Teams:    1200
+Expected Size:  5
+
+TEAM SIZE DISTRIBUTION:
+----------------------------------------------------------------------
+✓ Size 5: 1200 teams (100.0%)
+
+======================================================================
+BALANCE SUMMARY
+======================================================================
+
+GENDER BALANCE:
+  ✓ Balanced:   1200 teams (100.0%)
+  ✗ Imbalanced:    0 teams (  0.0%)
+
+SCHOOL DIVERSITY:
+  ✓ Balanced:   1200 teams (100.0%)
+  ✗ Imbalanced:    0 teams (  0.0%)
+
+CGPA STATISTICS:
+  Average team mean: 4.089
+  Average team std:  0.076
+  Range: 3.890 to 4.400
+
+======================================================================
+OVERALL QUALITY SCORE
+======================================================================
+
+Gender Balance:     100.0%
+School Diversity:   100.0%
+CGPA Distribution:  100.0%
+----------------------------------------------------------------------
+FINAL SCORE:        100.0%
+GRADE:              A+ (Excellent)
+
+
+[CRITICAL ISSUES REPORT]
+--------------------------------------------------------------------------------
+======================================================================
+ALL ISSUES FOUND (3 total)
+======================================================================
+
+ℹ️ INFO ISSUES (3):
+----------------------------------------------------------------------
+  1. [CGPA Distribution] Potential outlier: CoB (NBS) (CGPA 4.04) in Tutorial G-111, Team 144 (mean=4.14, std=0.05)
+  2. [CGPA Distribution] Potential outlier: CEE (CGPA 4.13) in Tutorial G-39, Team 539 (mean=4.03, std=0.05)
+  3. [CGPA Distribution] Potential outlier: CoE (CGPA 4.14) in Tutorial G-49, Team 646 (mean=4.07, std=0.04)
+
+
+

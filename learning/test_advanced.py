@@ -131,102 +131,63 @@ def select_high_cgpa(original):
 # ============================================================================
 
 def form_teams_adaptive(students, team_size):
-    """
-    UNIVERSAL ALGORITHM: Minimizes size deviations for ALL team sizes.
-    
-    Strategy:
-    - If remainder is small (< 3 students): distribute across existing teams
-    - If remainder is medium-large (>= 3): create additional team
-    - This minimizes both critical issues (tiny teams) and warnings (size+1)
-    """
-    if len(students) == 0:
+    if not students:
         return []
-    
-    thresholds = calculate_adaptive_threshold(students, team_size)
+
     n = len(students)
-    
-    # ===== KEY ALGORITHM: SMART REMAINDER HANDLING =====
-    ideal_teams = n // team_size
-    remainder = n % team_size
-    
-    # Decision: distribute vs create new team
-    # Use threshold of 3 students (works well for sizes 4-10)
-    if remainder == 0:
-        # Perfect division
-        num_teams = ideal_teams
-        team_targets = [team_size] * num_teams
-    elif remainder < 3:
-        # Small remainder: distribute across existing teams
-        # This avoids creating tiny teams (size 1-2)
-        num_teams = ideal_teams
-        team_targets = []
-        for i in range(num_teams):
-            if i < remainder:
-                team_targets.append(team_size + 1)
-            else:
-                team_targets.append(team_size)
-    else:
-        # Medium/large remainder: create new team
-        # This avoids too many oversized teams
-        num_teams = ideal_teams + 1
-        team_targets = [team_size] * ideal_teams + [remainder]
-    
-    print(f"  Creating {num_teams} teams with target sizes: {team_targets}")
-    
-    teams = []
-    for i in range(num_teams):
-        teams.append([])
-    
-    # Separate by gender and sort by CGPA
-    males = []
-    females = []
-    for s in students:
-        if s['gender'].upper() in ['M', 'MALE']:
-            males.append(s)
-        else:
-            females.append(s)
+
+    # Calculate thresholds for adaptive checks
+    thresholds = calculate_adaptive_threshold(students, team_size)  # <-- MUST be here
+
+    # Calculate number of teams (always round up)
+    num_teams = (n + team_size - 1) // team_size
+
+    # Determine target size for each team
+    base_size = n // num_teams
+    extra = n % num_teams
+    team_targets = [base_size + 1 if i < extra else base_size for i in range(num_teams)]
+    print(f"Creating {num_teams} teams with sizes: {team_targets}")
+
+    # Initialize empty teams
+    teams = [[] for _ in range(num_teams)]
+
+    # Split students by gender and sort by CGPA
+    males = [s for s in students if s['gender'].upper() in ['M', 'MALE']]
+    females = [s for s in students if s['gender'].upper() in ['F', 'FEMALE']]
     
     males_sorted = select_high_cgpa(males)
     females_sorted = select_high_cgpa(females)
-    
-    # Determine minority/majority
-    minority, majority = (males_sorted, females_sorted) if len(males_sorted) < len(females_sorted) else (females_sorted, males_sorted)
-    
-    # === PHASE 1: Distribute minority evenly ===
-    for i, s in enumerate(minority):
+
+    # Determine minority and majority gender
+    if len(males_sorted) <= len(females_sorted):
+        minority, majority = males_sorted, females_sorted
+    else:
+        minority, majority = females_sorted, males_sorted
+
+    # Phase 1: Distribute minority in round-robin
+    for i, student in enumerate(minority):
         idx = i % num_teams
-        teams[idx].append(s)
-    
-    # === PHASE 2: Fill to targets with majority ===
+        teams[idx].append(student)
+
+    # Phase 2: Fill remaining slots with majority
     team_idx = 0
-    for s in majority:
+    for student in majority:
         placed = False
-        
-        # Try teams in order, respecting target sizes
-        for attempt in range(num_teams):
-            idx = (team_idx + attempt) % num_teams
-            target = team_targets[idx]
-            
-            # Try to add if under target and constraints satisfied
-            if len(teams[idx]) < target and can_add_to_team_adaptive(teams[idx], s, target, thresholds):
-                teams[idx].append(s)
+        for _ in range(num_teams):
+            idx = team_idx % num_teams
+            if len(teams[idx]) < team_targets[idx] and can_add_to_team_adaptive(teams[idx], student, team_targets[idx], thresholds):
+                teams[idx].append(student)
                 placed = True
                 team_idx = (idx + 1) % num_teams
                 break
-        
+            team_idx += 1
+
+        # Fallback: add to team with most space
         if not placed:
-            # Fallback: find team with most space remaining
-            best_idx = 0
-            best_space = team_targets[0] - len(teams[0])
-            for t in range(1, num_teams):
-                space = team_targets[t] - len(teams[t])
-                if space > best_space:
-                    best_space = space
-                    best_idx = t
-            
-            teams[best_idx].append(s)
+            best_idx = max(range(num_teams), key=lambda t: team_targets[t] - len(teams[t]))
+            teams[best_idx].append(student)
             team_idx = (best_idx + 1) % num_teams
-    
+
     return teams
 
 # ============================================================================
