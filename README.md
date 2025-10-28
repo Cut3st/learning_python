@@ -1,6 +1,4 @@
-Currently serving as a repo to my random test cases for codes.
-
-*DONE* 
+## 🧪Currently serving as a repo to my random test cases for codes.
 
 My progress journal in rushing basic Python before University start 12HRS Video BroCodez style 😎
 
@@ -82,3 +80,8 @@ Reflection:  `Studied theory topics like Dates & Times, File handling, Exception
  - Pending Weather API App, Completed Digital Clock, Stopwatch
 
 Reflection:  `After procrastinating for 6 days, I’m almost done with the tutorial—just one final project left. I studied API integration and various PyQt5 topics (GUI, labels, layouts, buttons, checkboxes, radio buttons, textboxes, CSS). Using this knowledge, I built a digital clock and stopwatch. Although I struggled with some PyQt5 imports, I followed tutorials closely and added my own touches—like combining start/stop buttons and adding a lap feature with AI help for the stopwatch.`
+
+✅ Day 16 - (12:00:00/12:00:00) *30th July 2025*
+ - ALL DONE
+
+Reflection:  `I designed and made the GUI nice looking, completed the weather api app :D`
