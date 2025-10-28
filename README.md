@@ -1,6 +1,6 @@
 Currently serving as a repo to my random test cases for codes.
 
-*DONE*
+*DONE* \n
 My progress journal in rushing basic Python before University start 12HRS Video BroCodez style 😎
 
 Progress🎚️: 
