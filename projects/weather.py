@@ -113,7 +113,7 @@ class WeatherApp(QWidget):
 
         #OpenWeatheMap API
         city = self.city_input.text()
-        api_key = ""
+        api_key = "d2530cdf7a3155ae7d0839675e67d225"
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
         try:
@@ -336,11 +336,8 @@ class WeatherApp(QWidget):
         self.weather_label.setText(label_text or description)
         self.temperature_label.setText(f"{temperature}°C")
         self.fltemperature_label.setText(f"Feels like: {feels_like}°C")
-
-
-
         
-if __name__ == "__main__":
+if __name__ == "__main__": 
     app = QApplication(sys.argv)
     clock = WeatherApp()
     clock.show()
