@@ -36,21 +36,28 @@ def read_file(filename):
     return students
 
 def calculate_ratio(students, team_size):
-    """Calculate ratio for gender and STEM balance."""
+    #Calculate ratio for gender and STEM balance.
     male, female = count_gender(students)
     stem, nonstem = count_stem(students)
     
     total = male + female
+    #If there are no students,returns default max is half the size or +1 if odd
     if total == 0:
-        return {'male_max': 3, 'female_max': 3, 'stem_max': 3, 'nonstem_max': 3}
+        default_max = max(1, (team_size + 1) // 2)
+        return {
+            'male_max': default_max,
+            'female_max': default_max,
+            'stem_max': default_max,
+            'nonstem_max': default_max
+        }
     
-    # Stricter ratio (10% tolerance)
+    #Ratio with 10% tolerance
     tolerance = 0.1
     male_ratio = male / total
     female_ratio = female / total
     stem_ratio = stem / total
     nonstem_ratio = nonstem / total
-    
+    #Max scales by team size, with ratio tolerance, +0.5 is used to round to the nearest integer preferably something higher since its max
     male_max = int(team_size * min(male_ratio + tolerance, 1) + 0.5)
     female_max = int(team_size * min(female_ratio + tolerance, 1) + 0.5)
     stem_max = int(team_size * min(stem_ratio + tolerance, 1) + 0.5)
@@ -64,28 +71,28 @@ def calculate_ratio(students, team_size):
     }
 
 def count_gender(team):
-    """Count males and females in a team."""
+    #Count males and females in a team
     male = 0
     female = 0
     for student in team:
         if student['gender'].upper() in ['M', 'MALE']:
             male += 1
-        else:
+        elif student['gender'].upper() in ['F', 'FEMALE']:
             female += 1
     return male, female
 
 def count_stem(team):
-    """Count STEM and non-STEM students in a team."""
+    #Count STEM and non-STEM students in a team
     stem = 0
     nonstem = 0
     for student in team:
         if student['school'] in STEM_SCHOOLS:
             stem += 1
-        else:
+        elif student['school']:
             nonstem += 1
     return stem, nonstem
 
-def check_balanced(team,student,team_size, thresholds):
+def check_balanced(team,student,team_size, ratio):
     if len(team) >= team_size:
         return False
     temp_team = team + [student]
@@ -95,14 +102,14 @@ def check_balanced(team,student,team_size, thresholds):
     stem, nonstem = count_stem(temp_team)
 
     return (
-        male <= thresholds['male_max'] 
-        and female <= thresholds['female_max']
-        and stem <= thresholds['stem_max'] 
-        and nonstem <= thresholds['nonstem_max']
+        male <= ratio['male_max'] 
+        and female <= ratio['female_max']
+        and stem <= ratio['stem_max'] 
+        and nonstem <= ratio['nonstem_max']
     )
 
 def group_by_tutorial(students):
-    """Group students by tutorial."""
+    #Grouping students by their tutorials
     tutorials = {}
     for student in students:
         tut = student['tutorial']
@@ -114,7 +121,7 @@ def group_by_tutorial(students):
     return tutorials
 
 def sort_cgpa(students):
-    """Sort students by CGPA in descending order using insertion sort."""
+    #Sort students by CGPA in descending order using insertion sort."""
     sorted_list = []
     for s in students:
         inserted = False
@@ -125,146 +132,129 @@ def sort_cgpa(students):
                 break
         if not inserted:
             sorted_list.append(s)
-    return sorted_list
+    # Step 2: Reorder into snake pattern for team distribution
+    snake_list = []
+    num_students = len(sorted_list)
+    team_count_guess = max(1, num_students // 5)  # assume average team size ~5
+    # Split sorted list into team buffers of size team_count_guess
+    team_buffers = [sorted_list[i:i + team_count_guess] for i in range(0, num_students, team_count_guess)]
+    
+    # Zig-zag merge
+    forward = True
+    while any(team_buffers):
+        for buffer in team_buffers if forward else reversed(team_buffers):
+            if buffer:
+                snake_list.append(buffer.pop(0))
+        forward = not forward
+
+    return snake_list
 
 
 def form_teams(students, team_size):
-    if len(students) == 0:
+    if not students:
         return []
-    
-    thresholds = calculate_ratio(students, team_size)
+
+    ratio = calculate_ratio(students, team_size)
     n = len(students)
-    
-    # Calculate number of teams
+
+    # Calculate number of teams and their target sizes
     num_teams = (n + team_size - 1) // team_size
     base_size = n // num_teams
     extra = n % num_teams
-    
-    team_targets = []
-    for i in range(num_teams):
-        if i < extra:
-            team_targets.append(base_size + 1)
-        else:
-            team_targets.append(base_size)
-    
+    team_targets = [base_size + 1 if i < extra else base_size for i in range(num_teams)]
+
     # Initialize empty teams
     teams = [[] for _ in range(num_teams)]
-    
-    # Split by STEM category
+
+    # Split by STEM category and sort with snake pattern
     stem_students = [s for s in students if s['school'] in STEM_SCHOOLS]
     nonstem_students = [s for s in students if s['school'] not in STEM_SCHOOLS]
-    
     stem_sorted = sort_cgpa(stem_students)
     nonstem_sorted = sort_cgpa(nonstem_students)
-    
+
     # Determine STEM minority and majority
     if len(stem_sorted) <= len(nonstem_sorted):
         stem_minority, stem_majority = stem_sorted, nonstem_sorted
     else:
         stem_minority, stem_majority = nonstem_sorted, stem_sorted
-    
+
     # PHASE 0: Distribute STEM minority evenly
     for i, s in enumerate(stem_minority):
-        idx = i % num_teams
-        teams[idx].append(s)
-    
-    # Split by gender
+        teams[i % num_teams].append(s)
+
+    # Split by gender and sort with snake pattern
     males = [s for s in students if s['gender'].upper() in ['M', 'MALE']]
-    females = [s for s in students if s['gender'].upper() not in ['M', 'MALE']]
-    
+    females = [s for s in students if s['gender'].upper() in ['F', 'FEMALE']]
     males_sorted = sort_cgpa(males)
     females_sorted = sort_cgpa(females)
-    
+
     # Determine gender minority and majority
     if len(males_sorted) <= len(females_sorted):
         minority, majority = males_sorted, females_sorted
     else:
         minority, majority = females_sorted, males_sorted
-    
-    # Randomization for diversity
+
+    # Randomize majority and STEM majority for diversity
     random.shuffle(majority)
     random.shuffle(stem_majority)
-    
+
     # PHASE 1: Distribute gender minority evenly
     for i, s in enumerate(minority):
         idx = i % num_teams
-        if s not in teams[idx]:  # Avoid duplicates
+        if s not in teams[idx]:
             teams[idx].append(s)
-    
-    # PHASE 2: Fill remaining spots with majority
+
+    # PHASE 2: Fill remaining spots with gender majority
     team_idx = 0
     for student in majority:
-        # Skip if already placed
-        already_placed = False
-        for team in teams:
-            if student in team:
-                already_placed = True
-                break
-        if already_placed:
-            continue
-        
+        if any(student in team for team in teams):
+            continue  # already placed
+
         placed = False
         for attempt in range(num_teams):
             idx = (team_idx + attempt) % num_teams
-            if len(teams[idx]) < team_targets[idx] and check_balanced(teams[idx], student, team_targets[idx], thresholds):
+            if len(teams[idx]) < team_targets[idx] and check_balanced(teams[idx], student, team_targets[idx], ratio):
                 teams[idx].append(student)
-                placed = True
                 team_idx = (idx + 1) % num_teams
+                placed = True
                 break
-        
+
         if not placed:
-            # Fallback: team with most space
-            best_idx = 0
-            best_space = team_targets[0] - len(teams[0])
-            for t in range(1, num_teams):
-                space = team_targets[t] - len(teams[t])
-                if space > best_space:
-                    best_space = space
-                    best_idx = t
+            # fallback: team with most space
+            best_idx = max(range(num_teams), key=lambda t: team_targets[t] - len(teams[t]))
             teams[best_idx].append(student)
             team_idx = (best_idx + 1) % num_teams
-    
+
     # PHASE 3: Place any remaining STEM majority
     for student in stem_majority:
-        # Skip if already placed
-        already_placed = False
-        for team in teams:
-            if student in team:
-                already_placed = True
-                break
-        if already_placed:
-            continue
-        
+        if any(student in team for team in teams):
+            continue  # already placed
+
         placed = False
         for attempt in range(num_teams):
             idx = (team_idx + attempt) % num_teams
-            if len(teams[idx]) < team_targets[idx] and check_balanced(teams[idx], student, team_targets[idx], thresholds):
+            if len(teams[idx]) < team_targets[idx] and check_balanced(teams[idx], student, team_targets[idx], ratio):
                 teams[idx].append(student)
-                placed = True
                 team_idx = (idx + 1) % num_teams
+                placed = True
                 break
-        
+
         if not placed:
-            # Fallback
-            best_idx = 0
-            best_space = team_targets[0] - len(teams[0])
-            for t in range(1, num_teams):
-                space = team_targets[t] - len(teams[t])
-                if space > best_space:
-                    best_space = space
-                    best_idx = t
+            best_idx = max(range(num_teams), key=lambda t: team_targets[t] - len(teams[t]))
             teams[best_idx].append(student)
             team_idx = (best_idx + 1) % num_teams
-    
+
     return teams
-def save_sorted_csv(all_students, filename):
+
+def write_csv(all_students, filename):
     #Bubble Sort by tutorial then by team
     for i in range(len(all_students)):
         for j in range(len(all_students) - i - 1):
             current_std = all_students[j]
             next_std = all_students[j + 1]
             if current_std['tutorial'] > next_std['tutorial'] or (current_std['tutorial'] == next_std['tutorial'] and current_std['team'] > next_std['team']):
-                all_students[j], all_students[j + 1] = b, a
+                all_students[j], all_students[j + 1] = next_std, current_std
+    #Write sorted data into CSV           
     with open(filename, 'w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=['tutorial', 'id', 'school', 'name', 'gender', 'cgpa', 'team'])
         writer.writeheader()
@@ -273,17 +263,16 @@ def save_sorted_csv(all_students, filename):
     print("Saved to", filename)
 
 def main():
-    print("Team Allocation (STEM/NON-STEM)")
+    print("Team Allocation (STEM/NON-STEM):")
     team_size = 5
-    print(f"\nUsing team size: {team_size}")
+    print(f"\nTeam Size: {team_size}")
     
     all_students = read_file('records.csv')
     tutorials = group_by_tutorial(all_students)
     
     team_number = 1
-    for tutorial_name in tutorials:
-        tutorial_students = tutorials[tutorial_name]
-        teams = form_teams(tutorial_students, team_size)
+    for tut_students in tutorials.values():
+        teams = form_teams(tut_students, team_size)
         
         for team in teams:
             for student in team:
