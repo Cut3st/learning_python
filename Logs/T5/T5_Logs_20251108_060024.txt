@@ -1,8 +1,8 @@
 ================================================================================
 TEAM VALIDATION LOG
 ================================================================================
-Timestamp: 2025-10-29 12:21:50
-CSV File:   C:/Users/User/OneDrive/Documents/GitHub/learning_python/FDBA_Team1_JohnSmith.csv
+Timestamp: 2025-11-08 06:00:24
+CSV File:   C:/Users/User/OneDrive/Documents/GitHub/learning_python/FCS1_Team2_Joshua.csv
 Team Size:  5
 Strictness: NIGHTMARE
 Score:      100.0% | Grade: A+ (Excellent)
@@ -40,8 +40,8 @@ SCHOOL DIVERSITY:
 
 CGPA STATISTICS:
   Average team mean: 4.089
-  Average team std:  0.100
-  Range: 3.948 to 4.270
+  Average team std:  0.099
+  Range: 3.944 to 4.292
 
 ======================================================================
 OVERALL QUALITY SCORE
