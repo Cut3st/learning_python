@@ -1,372 +1,244 @@
-"""
-Team Allocation - ENHANCED ALGORITHM (Team Sizes 4-10)
-Implements adaptive gender + STEM balance with flexible team sizes
-"""
-
 import random
+import csv
 
-# ============================================================================
-# STEM SCHOOL CONFIGURATION
-# ============================================================================
-STEM_SCHOOLS = [
-    "CCDS",
-    "CCEB",
-    "CoE",
-    "EEE",
-    "MAE",
-    "SPMS",
-    "SBS",
-    "MSE",
-    "CEE"
-]
+STEM_SCHOOLS = ["CCDS", "CCEB", "CoE", "EEE", "MAE", "SPMS", "SBS", "MSE", "CEE"]
 
-# ============================================================================
-# ADAPTIVE BALANCE FUNCTIONS
-# ============================================================================
-
-def calculate_adaptive_threshold(students, team_size):
-    """Calculate adaptive thresholds for gender and STEM balance."""
-    male = 0
-    female = 0
-    stem = 0
-    nonstem = 0
-    
-    for s in students:
-        if s['gender'].upper() in ['M', 'MALE']:
-            male += 1
-        else:
-            female += 1
+def read_file(filename):
+    students = []
+    with open(filename, 'r', newline='') as file:
+        reader = csv.DictReader(file, fieldnames=['tutorial', 'id', 'name', 'school', 'gender', 'cgpa'])
+        next(reader)
         
-        if s['school'] in STEM_SCHOOLS:
-            stem += 1
-        else:
-            nonstem += 1
+        for row in reader:
+            if not any(row.values()):
+                continue
+            try:
+                row['cgpa'] = float(row['cgpa'])
+                row['team'] = 0
+                students.append(row)
+            except ValueError:
+                print(f"Warning: Invalid CGPA for ID {row['id']}")
+                continue
     
+    print(f"Loaded {len(students)} students")
+    return students
+
+def calculate_ratio(students, team_size):
+    male, female = count_gender(students)
+    stem, nonstem = count_stem(students)
     total = male + female
+    
     if total == 0:
-        return {'male_max': 3, 'female_max': 3, 'stem_max': 3, 'nonstem_max': 3}
+        default_max = max(1, (team_size + 1) // 2)
+        return {'male_max': default_max, 'female_max': default_max,
+                'stem_max': default_max, 'nonstem_max': default_max}
     
-    # Stricter ratio (10% tolerance)
-    tolerance = 0.1
-    male_ratio = male / total
-    female_ratio = female / total
-    stem_ratio = stem / total
-    nonstem_ratio = nonstem / total
+    tolerance = 0.15 + (team_size - 5) * 0.02
+    male_max = int(team_size * min(male / total + tolerance, 1) + 0.5)
+    female_max = int(team_size * min(female / total + tolerance, 1) + 0.5)
+    stem_max = int(team_size * min(stem / total + tolerance, 1) + 0.5)
+    nonstem_max = int(team_size * min(nonstem / total + tolerance, 1) + 0.5)
     
-    male_max = int(team_size * min(male_ratio + tolerance, 1) + 0.5)
-    female_max = int(team_size * min(female_ratio + tolerance, 1) + 0.5)
-    stem_max = int(team_size * min(stem_ratio + tolerance, 1) + 0.5)
-    nonstem_max = int(team_size * min(nonstem_ratio + tolerance, 1) + 0.5)
-    
-    return {
-        'male_max': max(1, male_max),
-        'female_max': max(1, female_max),
-        'stem_max': max(1, stem_max),
-        'nonstem_max': max(1, nonstem_max)
-    }
-
-def is_gender_balanced(team, thresholds):
-    """Check if team meets gender balance criteria."""
-    male, female = count_gender(team)
-    return male <= thresholds['male_max'] and female <= thresholds['female_max']
-
-def is_stem_balanced(team, thresholds):
-    """Check if team meets STEM/non-STEM balance criteria."""
-    stem, nonstem = count_stem(team)
-    return stem <= thresholds['stem_max'] and nonstem <= thresholds['nonstem_max']
-
-def can_add_to_team(team, student, max_size, thresholds):
-    """Check if student can be added without violating constraints."""
-    if len(team) >= max_size:
-        return False
-    temp_team = team + [student]
-    return (
-        is_gender_balanced(temp_team, thresholds)
-        and is_stem_balanced(temp_team, thresholds)
-    )
-
-# ============================================================================
-# HELPER FUNCTIONS
-# ============================================================================
+    return {'male_max': max(1, male_max), 'female_max': max(1, female_max),
+            'stem_max': max(1, stem_max), 'nonstem_max': max(1, nonstem_max)}
 
 def count_gender(team):
-    """Count males and females in a team."""
-    male = 0
-    female = 0
+    male = female = 0
     for student in team:
         if student['gender'].upper() in ['M', 'MALE']:
             male += 1
-        else:
+        elif student['gender'].upper() in ['F', 'FEMALE']:
             female += 1
     return male, female
 
 def count_stem(team):
-    """Count STEM and non-STEM students in a team."""
-    stem = 0
-    nonstem = 0
+    stem = nonstem = 0
     for student in team:
         if student['school'] in STEM_SCHOOLS:
             stem += 1
-        else:
+        elif student['school']:
             nonstem += 1
     return stem, nonstem
 
-def read_csv_file(filename):
-    """Read student records from CSV file."""
-    students = []
-    file = open(filename, 'r')
-    lines = file.readlines()
-    file.close()
-    
-    for i in range(1, len(lines)):
-        line = lines[i].strip()
-        if not line:
-            continue
-        parts = line.split(',')
-        student = {
-            'tutorial': parts[0],
-            'id': parts[1],
-            'name': parts[2],
-            'school': parts[3],
-            'gender': parts[4],
-            'cgpa': float(parts[5]),
-            'team': 0
-        }
-        students.append(student)
-    
-    print("Loaded", len(students), "students")
-    return students
+def check_balanced(team, student, team_size, ratio):
+    if len(team) >= team_size:
+        return False
+    temp_team = team + [student]
+    male, female = count_gender(temp_team)
+    stem, nonstem = count_stem(temp_team)
+    return (male <= ratio['male_max'] and female <= ratio['female_max'] and
+            stem <= ratio['stem_max'] and nonstem <= ratio['nonstem_max'])
 
 def group_by_tutorial(students):
-    """Group students by tutorial."""
     tutorials = {}
     for student in students:
         tut = student['tutorial']
         if tut not in tutorials:
             tutorials[tut] = []
         tutorials[tut].append(student)
-    
-    print("Found", len(tutorials), "tutorial groups")
+    print(f"Found {len(tutorials)} tutorial groups")
     return tutorials
 
-def select_high_cgpa(students):
-    """Sort students by CGPA in descending order using insertion sort."""
-    sorted_list = []
-    for s in students:
-        inserted = False
-        for i in range(len(sorted_list)):
-            if s['cgpa'] > sorted_list[i]['cgpa']:
-                sorted_list = sorted_list[:i] + [s] + sorted_list[i:]
-                inserted = True
-                break
-        if not inserted:
-            sorted_list.append(s)
-    return sorted_list
+def sort_by_cgpa(students):
+    n = len(students)
+    for i in range(n):
+        max_idx = i
+        for j in range(i + 1, n):
+            if students[j]['cgpa'] > students[max_idx]['cgpa']:
+                max_idx = j
+        students[i], students[max_idx] = students[max_idx], students[i]
+    return students
 
-# ============================================================================
-# TEAM FORMATION
-# ============================================================================
-
-def form_teams_adaptive(students, team_size):
-    """
-    Form teams with adaptive gender and STEM balance.
-    
-    Algorithm:
-    1. Calculate adaptive thresholds for tutorial demographics
-    2. Distribute STEM minority evenly first
-    3. Distribute gender minority evenly
-    4. Fill remaining spots with majority groups
-    """
+def form_teams(students, team_size):
     if len(students) == 0:
         return []
     
-    thresholds = calculate_adaptive_threshold(students, team_size)
-    n = len(students)
+    ratio = calculate_ratio(students, team_size)
+    total = len(students)
+    num_teams = (total + team_size - 1) // team_size
     
-    # Calculate number of teams
-    num_teams = (n + team_size - 1) // team_size
-    base_size = n // num_teams
-    extra = n % num_teams
+    base_size = total // num_teams
+    extra = total % num_teams
+    team_sizes = [base_size + 1 if i < extra else base_size for i in range(num_teams)]
     
-    team_targets = []
-    for i in range(num_teams):
-        if i < extra:
-            team_targets.append(base_size + 1)
-        else:
-            team_targets.append(base_size)
-    
-    # Initialize empty teams
     teams = [[] for _ in range(num_teams)]
+    placed_ids = set()
     
-    # Split by STEM category
-    stem_students = [s for s in students if s['school'] in STEM_SCHOOLS]
-    nonstem_students = [s for s in students if s['school'] not in STEM_SCHOOLS]
+    stem, nonstem, males, females = [], [], [], []
+    for s in students:
+        if s['school'] in STEM_SCHOOLS:
+            stem.append(s)
+        elif s['school']:
+            nonstem.append(s)
+        
+        if s['gender'].upper() in ['M', 'MALE']:
+            males.append(s)
+        elif s['gender'].upper() in ['F', 'FEMALE']:
+            females.append(s)
     
-    stem_sorted = select_high_cgpa(stem_students)
-    nonstem_sorted = select_high_cgpa(nonstem_students)
+    stem = sort_by_cgpa(stem)
+    nonstem = sort_by_cgpa(nonstem)
+    males = sort_by_cgpa(males)
+    females = sort_by_cgpa(females)
     
-    # Determine STEM minority and majority
-    if len(stem_sorted) <= len(nonstem_sorted):
-        stem_minority, stem_majority = stem_sorted, nonstem_sorted
-    else:
-        stem_minority, stem_majority = nonstem_sorted, stem_sorted
+    stem_minority, stem_majority = (stem, nonstem) if len(stem) <= len(nonstem) else (nonstem, stem)
+    gender_minority, gender_majority = (males, females) if len(males) <= len(females) else (females, males)
     
-    # PHASE 0: Distribute STEM minority evenly
-    for i, s in enumerate(stem_minority):
-        idx = i % num_teams
-        teams[idx].append(s)
-    
-    # Split by gender
-    males = [s for s in students if s['gender'].upper() in ['M', 'MALE']]
-    females = [s for s in students if s['gender'].upper() not in ['M', 'MALE']]
-    
-    males_sorted = select_high_cgpa(males)
-    females_sorted = select_high_cgpa(females)
-    
-    # Determine gender minority and majority
-    if len(males_sorted) <= len(females_sorted):
-        minority, majority = males_sorted, females_sorted
-    else:
-        minority, majority = females_sorted, males_sorted
-    
-    # Randomization for diversity
-    random.shuffle(majority)
     random.shuffle(stem_majority)
+    random.shuffle(gender_majority)
     
-    # PHASE 1: Distribute gender minority evenly
-    for i, s in enumerate(minority):
-        idx = i % num_teams
-        if s not in teams[idx]:  # Avoid duplicates
-            teams[idx].append(s)
+    for i, student in enumerate(stem_minority):
+        if student['id'] not in placed_ids:
+            teams[i % num_teams].append(student)
+            placed_ids.add(student['id'])
     
-    # PHASE 2: Fill remaining spots with majority
-    team_idx = 0
-    for student in majority:
-        # Skip if already placed
-        already_placed = False
-        for team in teams:
-            if student in team:
-                already_placed = True
-                break
-        if already_placed:
+    for i, student in enumerate(gender_minority):
+        if student['id'] not in placed_ids:
+            teams[i % num_teams].append(student)
+            placed_ids.add(student['id'])
+    
+    current_team = 0
+    for student in gender_majority:
+        if student['id'] in placed_ids:
             continue
         
         placed = False
-        for attempt in range(num_teams):
-            idx = (team_idx + attempt) % num_teams
-            if len(teams[idx]) < team_targets[idx] and can_add_to_team(teams[idx], student, team_targets[idx], thresholds):
+        for offset in range(num_teams):
+            idx = (current_team + offset) % num_teams
+            if len(teams[idx]) < team_sizes[idx] and \
+               check_balanced(teams[idx], student, team_sizes[idx], ratio):
                 teams[idx].append(student)
+                placed_ids.add(student['id'])
                 placed = True
-                team_idx = (idx + 1) % num_teams
+                current_team = (idx + 1) % num_teams
                 break
         
         if not placed:
-            # Fallback: team with most space
-            best_idx = 0
-            best_space = team_targets[0] - len(teams[0])
+            best_team = 0
+            max_space = team_sizes[0] - len(teams[0])
             for t in range(1, num_teams):
-                space = team_targets[t] - len(teams[t])
-                if space > best_space:
-                    best_space = space
-                    best_idx = t
-            teams[best_idx].append(student)
-            team_idx = (best_idx + 1) % num_teams
+                space = team_sizes[t] - len(teams[t])
+                if space > max_space:
+                    max_space = space
+                    best_team = t
+            teams[best_team].append(student)
+            placed_ids.add(student['id'])
+            current_team = (best_team + 1) % num_teams
     
-    # PHASE 3: Place any remaining STEM majority
     for student in stem_majority:
-        # Skip if already placed
-        already_placed = False
-        for team in teams:
-            if student in team:
-                already_placed = True
-                break
-        if already_placed:
+        if student['id'] in placed_ids:
             continue
         
         placed = False
-        for attempt in range(num_teams):
-            idx = (team_idx + attempt) % num_teams
-            if len(teams[idx]) < team_targets[idx] and can_add_to_team(teams[idx], student, team_targets[idx], thresholds):
+        for offset in range(num_teams):
+            idx = (current_team + offset) % num_teams
+            if len(teams[idx]) < team_sizes[idx] and \
+               check_balanced(teams[idx], student, team_sizes[idx], ratio):
                 teams[idx].append(student)
+                placed_ids.add(student['id'])
                 placed = True
-                team_idx = (idx + 1) % num_teams
+                current_team = (idx + 1) % num_teams
                 break
         
         if not placed:
-            # Fallback
-            best_idx = 0
-            best_space = team_targets[0] - len(teams[0])
+            best_team = 0
+            max_space = team_sizes[0] - len(teams[0])
             for t in range(1, num_teams):
-                space = team_targets[t] - len(teams[t])
-                if space > best_space:
-                    best_space = space
-                    best_idx = t
-            teams[best_idx].append(student)
-            team_idx = (best_idx + 1) % num_teams
+                space = team_sizes[t] - len(teams[t])
+                if space > max_space:
+                    max_space = space
+                    best_team = t
+            teams[best_team].append(student)
+            placed_ids.add(student['id'])
+            current_team = (best_team + 1) % num_teams
     
     return teams
 
-# ============================================================================
-# OUTPUT
-# ============================================================================
-
-def save_to_csv(all_students, filename):
-    """Save team assignments to CSV file."""
-    # Sort by tutorial then by team
-    for i in range(len(all_students)):
-        for j in range(i + 1, len(all_students)):
-            if all_students[i]['tutorial'] > all_students[j]['tutorial']:
-                all_students[i], all_students[j] = all_students[j], all_students[i]
-            elif all_students[i]['tutorial'] == all_students[j]['tutorial']:
-                if all_students[i]['team'] > all_students[j]['team']:
-                    all_students[i], all_students[j] = all_students[j], all_students[i]
-    
-    file = open(filename, 'w')
-    file.write("Tutorial Group,Student ID,School,Name,Gender,CGPA,Team Assigned\n")
+def write_csv(all_students, filename):
+    groups = {}
     for student in all_students:
-        line = f"{student['tutorial']},{student['id']},{student['school']},{student['name']},{student['gender']},{student['cgpa']},{student['team']}\n"
-        file.write(line)
-    file.close()
-    print("Saved to", filename, "(sorted by Tutorial and Team)")
-
-# ============================================================================
-# MAIN PROGRAM
-# ============================================================================
+        key = (student['tutorial'], student['team'])
+        if key not in groups:
+            groups[key] = []
+        groups[key].append(student)
+    
+    keys_list = list(groups.keys())
+    n = len(keys_list)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if keys_list[i] > keys_list[j]:
+                keys_list[i], keys_list[j] = keys_list[j], keys_list[i]
+    
+    with open(filename, 'w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=['tutorial', 'id', 'school', 'name', 'gender', 'cgpa', 'team'])
+        writer.writeheader()
+        for key in keys_list:
+            writer.writerows(groups[key])
+    print(f"Saved to {filename}")
 
 def main():
-    print("=" * 50)
-    print("Team Allocation - ENHANCED (Sizes 4-10, STEM Balanced)")
-    print("=" * 50)
+    print("Team Allocation (STEM/NON-STEM):")
+    team_size = int(input("Enter team size (4-10): "))  
     
-    while True:
-        try:
-            team_size = int(input("\nEnter desired team size (4-10): "))
-            if 4 <= team_size <= 10:
-                break
-            print("Please enter a number between 4 and 10")
-        except:
-            print("Invalid input. Please enter a number.")
+    if team_size < 4 or team_size > 10:  
+        print("Team size must be between 4 and 10")
+        return
     
-    print(f"\nUsing team size: {team_size}")
-    print("=" * 50)
+    print(f"Team Size: {team_size}")
     
-    all_students = read_csv_file('records.csv')
+    all_students = read_file('records.csv')
     tutorials = group_by_tutorial(all_students)
     
     team_number = 1
-    for tutorial_name in tutorials:
-        print(f"\nProcessing Tutorial: {tutorial_name}")
-        tutorial_students = tutorials[tutorial_name]
-        teams = form_teams_adaptive(tutorial_students, team_size)
-        
+    for tut_students in tutorials.values():
+        teams = form_teams(tut_students, team_size)
         for team in teams:
             for student in team:
                 student['team'] = team_number
             team_number += 1
     
-    save_to_csv(all_students, 'FDBA_Team1_JohnSmith.csv')
-    print("\n" + "=" * 50)
+    write_csv(all_students, 'FCS1_Team2_Joshua.csv')
     print("DONE! Check the output CSV file.")
-    print("=" * 50)
 
-main()
+if __name__ == "__main__":
+    main()
